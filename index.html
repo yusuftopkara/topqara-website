@@ -1,0 +1,1894 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-tr="topqara — Premium Mobil & Web Uygulama Geliştirme" data-en="topqara — Premium Mobile & Web App Development">topqara — Premium Mobil & Web Uygulama Geliştirme</title>
+  <link rel="icon" type="image/jpeg" href="topqara-assets/logo-circle.jpg">
+  <link rel="apple-touch-icon" href="topqara-assets/logo-app-icon.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #050505;
+      --black-light: #0a0a0a;
+      --black-lighter: #111111;
+      --gold: #d4af37;
+      --gold-light: #f4d03f;
+      --gold-dark: #b8860b;
+      --white: #ffffff;
+      --gray: #888888;
+      --gray-light: #cccccc;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Animated Background with Video */
+    .animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: var(--black);
+      overflow: hidden;
+    }
+
+    .animated-bg::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 40% 40%, rgba(184, 134, 11, 0.08) 0%, transparent 30%);
+      animation: bgMove 20s ease-in-out infinite;
+    }
+
+    .grid-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(212, 175, 55, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212, 175, 55, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: gridMove 10s linear infinite;
+    }
+
+    @keyframes bgMove {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      33% { transform: translate(30px, -30px) rotate(1deg); }
+      66% { transform: translate(-20px, 20px) rotate(-1deg); }
+    }
+
+    @keyframes gridMove {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    /* Language Switcher */
+    .lang-switcher {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-left: 1.5rem;
+      padding: 0.4rem 0.8rem;
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 50px;
+    }
+
+    .lang-btn {
+      padding: 0.3rem 0.8rem;
+      background: transparent;
+      border: none;
+      color: var(--gray);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: 50px;
+      transition: all 0.3s;
+    }
+
+    .lang-btn.active {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--black);
+    }
+
+    .lang-btn:hover:not(.active) {
+      color: var(--gold);
+    }
+
+    /* Logo Component - p|q with proper styling */
+    .logo-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+      border-radius: 50%;
+      position: relative;
+      font-family: 'Space Grotesk', monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--black);
+      box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+    }
+
+    .logo-badge::before {
+      content: '';
+      position: absolute;
+      width: 2px;
+      height: 40%;
+      background: var(--black);
+      opacity: 0.7;
+      z-index: 2;
+    }
+
+    .logo-badge .char {
+      z-index: 1;
+      font-weight: 700;
+      display: inline-block;
+      font-size: 1.3rem;
+    }
+
+    .logo-badge .p { 
+      margin-right: 2px; 
+      transform: translateX(-3px);
+    }
+    .logo-badge .q { 
+      margin-left: 2px;
+      transform: scaleX(-1) translateX(-3px);
+      position: relative;
+    }
+    
+    .logo-badge .q::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      right: -2px;
+      width: 4px;
+      height: 4px;
+      background: var(--black);
+      border-radius: 50%;
+    }
+
+    /* Brand Text - Simple */
+    .brand-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 1.6rem;
+      color: var(--white);
+      letter-spacing: -0.5px;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1rem 2rem;
+      background: rgba(5, 5, 5, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--gold);
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      padding: 0.75rem 1.75rem;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--black);
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(212, 175, 55, 0.4);
+    }
+
+    /* Hero Section with Video Background */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 12rem 2rem 6rem;
+      position: relative;
+    }
+
+    .hero-video-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .hero-video-bg video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.3;
+    }
+
+    .hero-video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(5,5,5,0.9) 0%, rgba(5,5,5,0.7) 50%, rgba(5,5,5,0.9) 100%);
+    }
+
+    .hero-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 50px;
+      font-size: 0.85rem;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-content h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 4.5rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, var(--white) 0%, var(--gold-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-content p {
+      font-size: 1.25rem;
+      color: var(--gray);
+      margin-bottom: 2.5rem;
+      max-width: 500px;
+      line-height: 1.7;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn-primary {
+      padding: 1rem 2.5rem;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--black);
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(212, 175, 55, 0.4);
+    }
+
+    .btn-secondary {
+      padding: 1rem 2.5rem;
+      background: transparent;
+      color: var(--white);
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.05);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Services Section */
+    .services {
+      padding: 8rem 2rem;
+      position: relative;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 5rem;
+    }
+
+    .section-header h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--white), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-header p {
+      color: var(--gray);
+      font-size: 1.1rem;
+    }
+
+    .services-grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .service-card {
+      background: linear-gradient(145deg, rgba(17,17,17,0.8), rgba(10,10,10,0.9));
+      border: 1px solid rgba(212, 175, 55, 0.1);
+      border-radius: 24px;
+      overflow: hidden;
+      transition: all 0.4s;
+      position: relative;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light));
+      transform: scaleX(0);
+      transition: transform 0.4s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(212, 175, 55, 0.3);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    .service-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .service-image {
+      height: 280px;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(184, 134, 11, 0.08));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+
+    .service-card:hover .service-image img {
+      transform: scale(1.05);
+    }
+
+    .service-content {
+      padding: 2rem;
+    }
+
+    .service-content h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+
+    .service-content p {
+      color: var(--gray);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .service-features {
+      list-style: none;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .service-features li {
+      padding: 0.4rem 0;
+      color: var(--gray-light);
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .service-features li::before {
+      content: '→';
+      color: var(--gold);
+    }
+
+    /* Pricing Section */
+    .pricing {
+      padding: 8rem 2rem;
+      background: linear-gradient(180deg, var(--black) 0%, var(--black-light) 50%, var(--black) 100%);
+    }
+
+    .pricing-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .pricing-category {
+      margin-bottom: 4rem;
+    }
+
+    .pricing-category-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .pricing-category-title .icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .pricing-card {
+      background: linear-gradient(145deg, rgba(17,17,17,0.9), rgba(10,10,10,0.95));
+      border: 1px solid rgba(212, 175, 55, 0.1);
+      border-radius: 24px;
+      padding: 2.5rem;
+      position: relative;
+      transition: all 0.4s;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(212, 175, 55, 0.3);
+    }
+
+    .pricing-card.featured {
+      border-color: var(--gold);
+      background: linear-gradient(145deg, rgba(212, 175, 55, 0.05), rgba(10,10,10,0.95));
+    }
+
+    .pricing-card.featured::before {
+      content: attr(data-featured);
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--black);
+      padding: 0.35rem 1.25rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .pricing-header {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .pricing-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .pricing-card .description {
+      color: var(--gray);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .price {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .price span {
+      font-size: 1rem;
+      color: var(--gray);
+      -webkit-text-fill-color: var(--gray);
+    }
+
+    .pricing-features {
+      list-style: none;
+      margin: 2rem 0;
+    }
+
+    .pricing-features li {
+      padding: 0.75rem 0;
+      color: var(--gray-light);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    .pricing-features li::before {
+      content: '✓';
+      color: var(--gold);
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .pricing-card .btn-primary {
+      width: 100%;
+      justify-content: center;
+    }
+
+    /* References Section */
+    .references {
+      padding: 8rem 2rem;
+    }
+
+    .references-filter {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 0.6rem 1.25rem;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--gray);
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--black);
+      border-color: var(--gold);
+      font-weight: 600;
+    }
+
+    .references-grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .reference-card {
+      background: linear-gradient(145deg, rgba(17,17,17,0.9), rgba(10,10,10,0.95));
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.4s;
+    }
+
+    .reference-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(212, 175, 55, 0.3);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .reference-image {
+      height: 280px;
+      background: linear-gradient(135deg, var(--black-lighter), var(--black-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .reference-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+
+    .reference-card:hover .reference-image img {
+      transform: scale(1.05);
+    }
+
+    .reference-content {
+      padding: 1.75rem;
+    }
+
+    .reference-tag {
+      display: inline-block;
+      padding: 0.35rem 0.9rem;
+      background: rgba(212, 175, 55, 0.1);
+      color: var(--gold);
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .reference-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .reference-card p {
+      color: var(--gray);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* About Section */
+    .about {
+      padding: 8rem 2rem;
+      background: linear-gradient(180deg, var(--black) 0%, var(--black-light) 100%);
+    }
+
+    .about-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .about-visual {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 3rem;
+      position: relative;
+    }
+
+    .about-visual img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 20px 60px rgba(212, 175, 55, 0.3);
+    }
+
+    .about h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, var(--white), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .about > p {
+      color: var(--gray);
+      font-size: 1.15rem;
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      line-height: 1.8;
+    }
+
+    .about-features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .about-feature {
+      padding: 2rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(212, 175, 55, 0.1);
+      border-radius: 20px;
+    }
+
+    .about-feature .number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .about-feature h4 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .about-feature p {
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+
+    /* Contact Section */
+    .contact {
+      padding: 8rem 2rem;
+      position: relative;
+    }
+
+    .contact::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .contact-container {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--white), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .contact > p {
+      color: var(--gray);
+      margin-bottom: 3rem;
+      font-size: 1.1rem;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .contact-form input,
+    .contact-form textarea,
+    .contact-form select {
+      padding: 1.25rem 1.5rem;
+      background: rgba(17, 17, 17, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      color: var(--white);
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus,
+    .contact-form select:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+    }
+
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+      color: var(--gray);
+    }
+
+    .contact-form textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    .contact-form select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1.5rem center;
+    }
+
+    .contact-form select option {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    /* WhatsApp Button Style */
+    .whatsapp-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      background: linear-gradient(135deg, #25d366, #128c7e);
+      color: white;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 600;
+      padding: 1rem 2rem;
+      width: 100%;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .whatsapp-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+    }
+
+    /* Footer */
+    footer {
+      padding: 4rem 2rem 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      background: var(--black-light);
+    }
+
+    .footer-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    .footer-links a {
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold);
+    }
+
+    .footer-bottom {
+      max-width: 1400px;
+      margin: 2rem auto 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-copy {
+      color: var(--gray);
+      font-size: 0.85rem;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gray);
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .footer-social a:hover {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    .whatsapp-float {
+      position: fixed;
+      bottom: 120px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #25d366, #128c7e);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+      z-index: 999;
+      transition: all 0.3s;
+      animation: pulse-whatsapp 2s infinite;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 30px rgba(37, 211, 102, 0.6);
+    }
+
+    @keyframes pulse-whatsapp {
+      0%, 100% { box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4); }
+      50% { box-shadow: 0 4px 30px rgba(37, 211, 102, 0.7); }
+    }
+
+    .scroll-top {
+      position: fixed;
+      bottom: 120px;
+      right: 100px;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--black);
+      font-size: 1.5rem;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+      z-index: 999;
+      transition: all 0.3s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .scroll-top:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(212, 175, 55, 0.5);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-content h1 {
+        font-size: 3.5rem;
+      }
+
+      .hero-buttons {
+        justify-content: center;
+      }
+
+      .hero-stats {
+        justify-content: center;
+      }
+
+      .hero-visual {
+        order: -1;
+      }
+
+      .services-grid,
+      .references-grid,
+      .about-features {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .lang-switcher {
+        margin-left: 0;
+        margin-top: 1rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 8rem;
+      }
+
+      .hero-content h1 {
+        font-size: 2.5rem;
+      }
+
+      .services-grid,
+      .references-grid,
+      .about-features {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-container,
+      .footer-bottom {
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+      }
+
+      .scroll-top {
+        right: 100px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="animated-bg">
+    <div class="grid-overlay"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <a href="#" class="logo" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; padding: 20px 40px; background: transparent; border: 2px solid rgba(212, 175, 55, 0.4); border-radius: 24px; box-shadow: 0 0 40px rgba(212, 175, 55, 0.15), inset 0 0 20px rgba(212, 175, 55, 0.05);">
+        <img src="topqara-assets/logo-glow.jpg" alt="topqara" style="height: 120px; width: auto; object-fit: contain; filter: brightness(1.2) contrast(1.1); mix-blend-mode: screen;">
+      </a>
+      <ul class="nav-links">
+        <li><a href="#services" data-tr="Hizmetler" data-en="Services">Hizmetler</a></li>
+        <li><a href="#pricing" data-tr="Fiyatlar" data-en="Pricing">Fiyatlar</a></li>
+        <li><a href="#references" data-tr="Referanslar" data-en="References">Referanslar</a></li>
+        <li><a href="#about" data-tr="Hakkımızda" data-en="About">Hakkımızda</a></li>
+        <li>
+          <div class="lang-switcher">
+            <button class="lang-btn active" onclick="setLanguage('tr')" id="btn-tr">TR</button>
+            <button class="lang-btn" onclick="setLanguage('en')" id="btn-en">EN</button>
+          </div>
+        </li>
+      </ul>
+      <a href="#contact" class="nav-cta" data-tr="Proje Başlat" data-en="Start Project">Proje Başlat</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-video-bg">
+      <video autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=1920&q=80">
+        <source src="https://cdn.coverr.co/videos/coverr-typing-on-a-laptop-3077/1080p.mp4" type="video/mp4">
+      </video>
+      <div class="hero-video-overlay"></div>
+    </div>
+    <div class="hero-container">
+      <div class="hero-content">
+        <h1 data-tr="Premium Mobil & Web Uygulamalar" data-en="Premium Mobile & Web Applications">Premium Mobil & Web Uygulamalar</h1>
+        
+        <p data-tr="React Native, Flutter ve modern web teknolojileriyle iOS, Android ve web uygulamaları geliştiriyoruz. Fikrinizi hayata geçirin." data-en="We develop iOS, Android and web applications with React Native, Flutter and modern web technologies. Bring your idea to life.">React Native, Flutter ve modern web teknolojileriyle iOS, Android ve web uygulamaları geliştiriyoruz. Fikrinizi hayata geçirin.</p>
+        
+        <div class="hero-buttons">
+          <a href="#contact" class="btn-primary" data-tr="Ücretsiz Teklif Al →" data-en="Get Free Quote →">Ücretsiz Teklif Al →</a>
+          <a href="#pricing" class="btn-secondary" data-tr="Paketleri İncele" data-en="View Packages">Paketleri İncele</a>
+        </div>
+        
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-number">50+</span>
+            <span class="stat-label" data-tr="Tamamlanan Proje" data-en="Completed Projects">Tamamlanan Proje</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">4.9</span>
+            <span class="stat-label" data-tr="Müşteri Puanı" data-en="Customer Rating">Müşteri Puanı</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">7/24</span>
+            <span class="stat-label" data-tr="Destek" data-en="Support">Destek</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div style="position: relative; max-width: 400px; margin-top: 20px;">
+          <!-- AI Badge - Left side of phone -->
+          <div style="position: absolute; top: 30px; left: -80px; background: rgba(17,17,17,0.95); border: 1px solid rgba(212,175,55,0.3); border-radius: 16px; padding: 1rem; backdrop-filter: blur(10px); animation: float 6s ease-in-out infinite 1s; z-index: 100;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-size: 1.5rem;">🚀</span>
+              <div>
+                <div style="font-weight: 600; font-size: 0.9rem; color: var(--gold);" data-tr="Yeni: AI Destekli" data-en="New: AI Powered">Yeni: AI Destekli</div>
+                <div style="font-size: 0.75rem; color: var(--gray);" data-tr="Geliştirme" data-en="Development">Geliştirme</div>
+              </div>
+            </div>
+          </div>
+          
+          <img src="topqara-assets/ref-payquick.png" alt="Ödeme Hızlı Uygulaması" style="width: 100%; border-radius: 30px; box-shadow: 0 40px 80px rgba(0,0,0,0.5); position: relative; z-index: 1;">
+          
+          <div style="position: absolute; top: 20%; right: -30px; background: rgba(17,17,17,0.95); border: 1px solid rgba(212,175,55,0.3); border-radius: 16px; padding: 1rem; backdrop-filter: blur(10px); animation: float 6s ease-in-out infinite; z-index: 10;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-size: 1.5rem;">⭐</span>
+              <div>
+                <div style="font-weight: 600; font-size: 0.9rem;">4.9 Rating</div>
+                <div style="font-size: 0.75rem; color: var(--gray);">App Store</div>
+              </div>
+            </div>
+          </div>
+          <div style="position: absolute; bottom: 30%; left: -40px; background: rgba(17,17,17,0.95); border: 1px solid rgba(212,175,55,0.3); border-radius: 16px; padding: 1rem; backdrop-filter: blur(10px); animation: float 6s ease-in-out infinite 2s; z-index: 10;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-size: 1.5rem;">🚀</span>
+              <div>
+                <div style="font-weight: 600; font-size: 0.9rem;" data-tr="Hızlı Teslimat" data-en="Fast Delivery">Hızlı Teslimat</div>
+                <div style="font-size: 0.75rem; color: var(--gray);" data-tr="1 Hafta" data-en="1 Week">1 Hafta</div>
+              </div>
+            </div>
+          </div>
+          <div style="position: absolute; bottom: 10%; right: -20px; background: rgba(17,17,17,0.95); border: 1px solid rgba(212,175,55,0.3); border-radius: 16px; padding: 1rem; backdrop-filter: blur(10px); animation: float 6s ease-in-out infinite 4s; z-index: 10;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-size: 1.5rem;">🛡️</span>
+              <div>
+                <div style="font-weight: 600; font-size: 0.9rem;" data-tr="Garanti" data-en="Guarantee">Garanti</div>
+                <div style="font-size: 0.75rem; color: var(--gray);" data-tr="6 Ay Destek" data-en="6 Month Support">6 Ay Destek</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="services" id="services">
+    <div class="section-header">
+      <h2 data-tr="Hizmetlerimiz" data-en="Our Services">Hizmetlerimiz</h2>
+      <p data-tr="Modern teknolojilerle native performansında uygulamalar geliştiriyoruz" data-en="We develop applications with native performance using modern technologies">Modern teknolojilerle native performansında uygulamalar geliştiriyoruz</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-image">
+          <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&h=400&fit=crop" alt="iOS Geliştirme - iPhone mockup" loading="lazy">
+        </div>
+        <div class="service-content">
+          <h3 data-tr="iOS Geliştirme" data-en="iOS Development">iOS Geliştirme</h3>
+          <p data-tr="Swift ve React Native ile App Store için premium iOS uygulamaları geliştiriyoruz." data-en="We develop premium iOS applications for App Store with Swift and React Native.">Swift ve React Native ile App Store için premium iOS uygulamaları geliştiriyoruz.</p>
+          <ul class="service-features">
+            <li>Swift & SwiftUI</li>
+            <li>React Native</li>
+            <li data-tr="App Store Optimizasyonu" data-en="App Store Optimization">App Store Optimizasyonu</li>
+          </ul>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-image">
+          <img src="https://images.unsplash.com/photo-1607252650355-f7fd0460ccdb?w=600&h=400&fit=crop" alt="Android Geliştirme - Android phone" loading="lazy">
+        </div>
+        <div class="service-content">
+          <h3 data-tr="Android Geliştirme" data-en="Android Development">Android Geliştirme</h3>
+          <p data-tr="Kotlin ve React Native ile Google Play için yüksek performanslı Android uygulamaları." data-en="High-performance Android applications for Google Play with Kotlin and React Native.">Kotlin ve React Native ile Google Play için yüksek performanslı Android uygulamaları.</p>
+          <ul class="service-features">
+            <li>Kotlin & Jetpack Compose</li>
+            <li>React Native</li>
+            <li data-tr="Play Store Optimizasyonu" data-en="Play Store Optimization">Play Store Optimizasyonu</li>
+          </ul>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-image">
+          <img src="https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?w=600&h=400&fit=crop" alt="React Native - Cross platform development" loading="lazy">
+        </div>
+        <div class="service-content">
+          <h3>React Native</h3>
+          <p data-tr="Tek kod tabanıyla hem iOS hem Android için cross-platform çözümler sunuyoruz." data-en="We offer cross-platform solutions for both iOS and Android with a single codebase.">Tek kod tabanıyla hem iOS hem Android için cross-platform çözümler sunuyoruz.</p>
+          <ul class="service-features">
+            <li data-tr="Tek Kod Tabanı" data-en="Single Codebase">Tek Kod Tabanı</li>
+            <li data-tr="Hızlı Geliştirme" data-en="Fast Development">Hızlı Geliştirme</li>
+            <li data-tr="Maliyet Optimizasyonu" data-en="Cost Optimization">Maliyet Optimizasyonu</li>
+          </ul>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-image">
+          <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=600&h=400&fit=crop" alt="Web Geliştirme - Modern web design" loading="lazy">
+        </div>
+        <div class="service-content">
+          <h3 data-tr="Web Sitesi Geliştirme" data-en="Website Development">Web Sitesi Geliştirme</h3>
+          <p data-tr="Next.js, React ve modern web teknolojileriyle web siteleri ve uygulamalar." data-en="Websites and applications with Next.js, React and modern web technologies.">Next.js, React ve modern web teknolojileriyle web siteleri ve uygulamalar.</p>
+          <ul class="service-features">
+            <li>Next.js & React</li>
+            <li data-tr="Full-Stack Çözümler" data-en="Full-Stack Solutions">Full-Stack Çözümler</li>
+            <li data-tr="SEO Optimizasyonu" data-en="SEO Optimization">SEO Optimizasyonu</li>
+          </ul>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-image">
+          <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=400&fit=crop" alt="UI/UX Tasarım - Design mockups" loading="lazy">
+        </div>
+        <div class="service-content">
+          <h3>UI/UX <span data-tr="Tasarım" data-en="Design">Tasarım</span></h3>
+          <p data-tr="Kullanıcı odaklı, modern ve etkileyici arayüz tasarımları yapıyoruz." data-en="We create user-centered, modern and impressive interface designs.">Kullanıcı odaklı, modern ve etkileyici arayüz tasarımları yapıyoruz.</p>
+          <ul class="service-features">
+            <li data-tr="Kullanıcı Araştırması" data-en="User Research">Kullanıcı Araştırması</li>
+            <li data-tr="Prototipleme" data-en="Prototyping">Prototipleme</li>
+            <li data-tr="Tasarım Sistemleri" data-en="Design Systems">Tasarım Sistemleri</li>
+          </ul>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-image">
+          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop" alt="Yayınlama & Destek - App store analytics" loading="lazy">
+        </div>
+        <div class="service-content">
+          <h3 data-tr="Yayınlama & Destek" data-en="Publishing & Support">Yayınlama & Destek</h3>
+          <p data-tr="App Store ve Play Store yayınlama, ASO optimizasyonu ve sürekli destek." data-en="App Store and Play Store publishing, ASO optimization and continuous support.">App Store ve Play Store yayınlama, ASO optimizasyonu ve sürekli destek.</p>
+          <ul class="service-features">
+            <li data-tr="Store Yayınlama" data-en="Store Publishing">Store Yayınlama</li>
+            <li data-tr="ASO Optimizasyonu" data-en="ASO Optimization">ASO Optimizasyonu</li>
+            <li data-tr="Bakım & Destek" data-en="Maintenance & Support">Bakım & Destek</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section class="pricing" id="pricing">
+    <div class="section-header">
+      <h2 data-tr="Fiyatlandırma" data-en="Pricing">Fiyatlandırma</h2>
+      <p data-tr="İhtiyacınıza uygun paket seçenekleri" data-en="Package options to suit your needs">İhtiyacınıza uygun paket seçenekleri</p>
+    </div>
+    <div class="pricing-container">
+      <!-- Mobile Pricing -->
+      <div class="pricing-category">
+        <h3 class="pricing-category-title">
+          <span class="icon">📱</span>
+          <span data-tr="Mobil Uygulama" data-en="Mobile Application">Mobil Uygulama</span>
+        </h3>
+        <div class="pricing-grid">
+          <div class="pricing-card">
+            <div class="pricing-header">
+              <h3>Starter</h3>
+              <p class="description" data-tr="Basit MVP uygulamalar için" data-en="For simple MVP applications">Basit MVP uygulamalar için</p>
+              <div class="price">₺19.9K<span data-tr="/başlayan" data-en="/starting">/başlayan</span></div>
+            </div>
+            <ul class="pricing-features">
+              <li data-tr="Tek platform (iOS veya Android)" data-en="Single platform (iOS or Android)">Tek platform (iOS veya Android)</li>
+              <li data-tr="5 temel ekran" data-en="5 basic screens">5 temel ekran</li>
+              <li data-tr="Temel API entegrasyonu" data-en="Basic API integration">Temel API entegrasyonu</li>
+              <li data-tr="App Store/Play Store yayınlama" data-en="App Store/Play Store publishing">App Store/Play Store yayınlama</li>
+              <li data-tr="1 ay destek" data-en="1 month support">1 ay destek</li>
+            </ul>
+            <a href="#contact" class="btn-primary" data-tr="Teklif Al" data-en="Get Quote">Teklif Al</a>
+          </div>
+          <div class="pricing-card featured" data-featured="En Popüler" data-en-featured="Most Popular">
+            <div class="pricing-header">
+              <h3>Pro</h3>
+              <p class="description" data-tr="Profesyonel uygulamalar için" data-en="For professional applications">Profesyonel uygulamalar için</p>
+              <div class="price">₺34.9K<span data-tr="/başlayan" data-en="/starting">/başlayan</span></div>
+            </div>
+            <ul class="pricing-features">
+              <li data-tr="Çift platform (iOS + Android)" data-en="Dual platform (iOS + Android)">Çift platform (iOS + Android)</li>
+              <li data-tr="15+ ekran" data-en="15+ screens">15+ ekran</li>
+              <li data-tr="Gelişmiş API entegrasyonu" data-en="Advanced API integration">Gelişmiş API entegrasyonu</li>
+              <li data-tr="Push bildirimler" data-en="Push notifications">Push bildirimler</li>
+              <li data-tr="Analytics entegrasyonu" data-en="Analytics integration">Analytics entegrasyonu</li>
+              <li data-tr="3 ay destek" data-en="3 months support">3 ay destek</li>
+            </ul>
+            <a href="#contact" class="btn-primary" data-tr="Teklif Al" data-en="Get Quote">Teklif Al</a>
+          </div>
+          <div class="pricing-card">
+            <div class="pricing-header">
+              <h3>Enterprise</h3>
+              <p class="description" data-tr="Kurumsal ölçekli projeler için" data-en="For enterprise-scale projects">Kurumsal ölçekli projeler için</p>
+              <div class="price">₺79.9K<span data-tr="/başlayan" data-en="/starting">/başlayan</span></div>
+            </div>
+            <ul class="pricing-features">
+              <li data-tr="Çift platform + Web admin panel" data-en="Dual platform + Web admin panel">Çift platform + Web admin panel</li>
+              <li data-tr="Sınırsız ekran" data-en="Unlimited screens">Sınırsız ekran</li>
+              <li data-tr="Özel backend/API geliştirme" data-en="Custom backend/API development">Özel backend/API geliştirme</li>
+              <li data-tr="Ödeme sistemi entegrasyonu" data-en="Payment system integration">Ödeme sistemi entegrasyonu</li>
+              <li data-tr="7/24 destek" data-en="24/7 support">7/24 destek</li>
+              <li data-tr="6 ay bakım" data-en="6 months maintenance">6 ay bakım</li>
+            </ul>
+            <a href="#contact" class="btn-primary" data-tr="Teklif Al" data-en="Get Quote">Teklif Al</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Web Pricing -->
+      <div class="pricing-category">
+        <h3 class="pricing-category-title">
+          <span class="icon">🌐</span>
+          <span data-tr="Web Sitesi Geliştirme" data-en="Website Development">Web Sitesi Geliştirme</span>
+        </h3>
+        <div class="pricing-grid">
+          <div class="pricing-card">
+            <div class="pricing-header">
+              <h3>Landing Page</h3>
+              <p class="description" data-tr="Tanıtım sayfaları için" data-en="For landing pages">Tanıtım sayfaları için</p>
+              <div class="price">₺4.9K<span data-tr="/başlayan" data-en="/starting">/başlayan</span></div>
+            </div>
+            <ul class="pricing-features">
+              <li data-tr="Tek sayfa tasarım" data-en="Single page design">Tek sayfa tasarım</li>
+              <li data-tr="Mobil uyumlu" data-en="Mobile responsive">Mobil uyumlu</li>
+              <li data-tr="SEO optimizasyonu" data-en="SEO optimization">SEO optimizasyonu</li>
+              <li data-tr="İletişim formu" data-en="Contact form">İletişim formu</li>
+              <li data-tr="1 hafta teslim" data-en="1 week delivery">1 hafta teslim</li>
+            </ul>
+            <a href="#contact" class="btn-primary" data-tr="Teklif Al" data-en="Get Quote">Teklif Al</a>
+          </div>
+          <div class="pricing-card featured" data-featured="En Popüler" data-en-featured="Most Popular">
+            <div class="pricing-header">
+              <h3>Web App</h3>
+              <p class="description" data-tr="Web uygulamaları için" data-en="For web applications">Web uygulamaları için</p>
+              <div class="price">₺19.9K<span data-tr="/başlayan" data-en="/starting">/başlayan</span></div>
+            </div>
+            <ul class="pricing-features">
+              <li data-tr="Çok sayfalı uygulama" data-en="Multi-page application">Çok sayfalı uygulama</li>
+              <li data-tr="Kullanıcı giriş sistemi" data-en="User login system">Kullanıcı giriş sistemi</li>
+              <li data-tr="Dashboard panel" data-en="Dashboard panel">Dashboard panel</li>
+              <li data-tr="API entegrasyonu" data-en="API integration">API entegrasyonu</li>
+              <li data-tr="3 ay destek" data-en="3 months support">3 ay destek</li>
+            </ul>
+            <a href="#contact" class="btn-primary" data-tr="Teklif Al" data-en="Get Quote">Teklif Al</a>
+          </div>
+          <div class="pricing-card">
+            <div class="pricing-header">
+              <h3 data-tr="E-Ticaret" data-en="E-Commerce">E-Ticaret</h3>
+              <p class="description" data-tr="Online satış platformları için" data-en="For online sales platforms">Online satış platformları için</p>
+              <div class="price">₺34.9K<span data-tr="/başlayan" data-en="/starting">/başlayan</span></div>
+            </div>
+            <ul class="pricing-features">
+              <li data-tr="Ürün yönetimi" data-en="Product management">Ürün yönetimi</li>
+              <li data-tr="Sepet ve ödeme sistemi" data-en="Cart and payment system">Sepet ve ödeme sistemi</li>
+              <li data-tr="Admin panel" data-en="Admin panel">Admin panel</li>
+              <li data-tr="Stok takibi" data-en="Inventory tracking">Stok takibi</li>
+              <li data-tr="6 ay destek" data-en="6 months support">6 ay destek</li>
+            </ul>
+            <a href="#contact" class="btn-primary" data-tr="Teklif Al" data-en="Get Quote">Teklif Al</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- References Section - Mobile Apps -->
+  <section class="references" id="references">
+    <div class="section-header">
+      <h2 data-tr="Mobil Uygulama Referansları" data-en="Mobile App References">Mobil Uygulama Referansları</h2>
+      <p data-tr="iOS ve Android platformları için geliştirdiğimiz uygulamalar" data-en="Applications we developed for iOS and Android platforms">iOS ve Android platformları için geliştirdiğimiz uygulamalar</p>
+    </div>
+    <div class="references-filter">
+      <button class="filter-btn active" onclick="filterReferences('all')" data-tr="Tümü" data-en="All">Tümü</button>
+      <button class="filter-btn" onclick="filterReferences('fintech')">Fintech</button>
+      <button class="filter-btn" onclick="filterReferences('health')" data-tr="Sağlık" data-en="Health">Sağlık</button>
+      <button class="filter-btn" onclick="filterReferences('ecommerce')" data-tr="E-Ticaret" data-en="E-Commerce">E-Ticaret</button>
+      <button class="filter-btn" onclick="filterReferences('food')" data-tr="Yemek" data-en="Food">Yemek</button>
+      <button class="filter-btn" onclick="filterReferences('fitness')" data-tr="Fitness" data-en="Fitness">Fitness</button>
+    </div>
+    <div class="references-grid">
+      <div class="reference-card" data-category="fintech">
+        <div class="reference-image">
+          <img src="topqara-assets/ref-payquick.png" alt="Ödeme Hızlı - Fintech uygulaması mockup" loading="lazy">
+        </div>
+        <div class="reference-content">
+          <span class="reference-tag">Fintech</span>
+          <h3 data-tr="Ödeme Hızlı" data-en="Fast Payment">Ödeme Hızlı</h3>
+          <p data-tr="Hızlı ödeme ve para transferi uygulaması" data-en="Fast payment and money transfer application">Hızlı ödeme ve para transferi uygulaması</p>
+        </div>
+      </div>
+      <div class="reference-card" data-category="health">
+        <div class="reference-image">
+          <img src="topqara-assets/ref-doktorim.png" alt="Doktorim - Sağlık uygulaması" loading="lazy">
+        </div>
+        <div class="reference-content">
+          <span class="reference-tag" data-tr="Sağlık" data-en="Health">Sağlık</span>
+          <h3>Doktorim</h3>
+          <p data-tr="Online randevu ve sağlık takip uygulaması" data-en="Online appointment and health tracking application">Online randevu ve sağlık takip uygulaması</p>
+        </div>
+      </div>
+      <div class="reference-card" data-category="ecommerce">
+        <div class="reference-image">
+          <img src="topqara-assets/ref-shoplocal.png" alt="ShopLocal - E-Ticaret uygulaması" loading="lazy">
+        </div>
+        <div class="reference-content">
+          <span class="reference-tag" data-tr="E-Ticaret" data-en="E-Commerce">E-Ticaret</span>
+          <h3>ShopLocal</h3>
+          <p data-tr="Yerel market alışveriş uygulaması" data-en="Local market shopping application">Yerel market alışveriş uygulaması</p>
+        </div>
+      </div>
+      <div class="reference-card" data-category="food">
+        <div class="reference-image">
+          <img src="topqara-assets/ref-yemekkapida.png" alt="Yemek Plus - Yemek sipariş uygulaması" loading="lazy">
+        </div>
+        <div class="reference-content">
+          <span class="reference-tag" data-tr="Yemek" data-en="Food">Yemek</span>
+          <h3 data-tr="Yemek Plus" data-en="Food Plus">Yemek Plus</h3>
+          <p data-tr="Yemek siparişi ve kurye takip uygulaması" data-en="Food ordering and courier tracking application">Yemek siparişi ve kurye takip uygulaması</p>
+        </div>
+      </div>
+      <div class="reference-card" data-category="fitness">
+        <div class="reference-image">
+          <img src="topqara-assets/ref-fitnesspro.png" alt="FitnessPro - Fitness uygulaması" loading="lazy">
+        </div>
+        <div class="reference-content">
+          <span class="reference-tag">Fitness</span>
+          <h3>FitnessPro</h3>
+          <p data-tr="Kişisel antrenman ve beslenme takibi" data-en="Personal workout and nutrition tracking">Kişisel antrenman ve beslenme takibi</p>
+        </div>
+      </div>
+      <div class="reference-card" data-category="fintech">
+        <div class="reference-image">
+          <img src="topqara-assets/ref-stocktrack.png" alt="Stok Takip - Borsa takip uygulaması" loading="lazy">
+        </div>
+        <div class="reference-content">
+          <span class="reference-tag">Fintech</span>
+          <h3 data-tr="Stok Takip" data-en="Stock Track">Stok Takip</h3>
+          <p data-tr="Borsa ve kripto takip uygulaması" data-en="Stock and crypto tracking application">Borsa ve kripto takip uygulaması</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- References Section - Web Sites -->
+  <section class="references" id="web-references" style="padding-top: 4rem;">
+    <div class="section-header">
+      <h2 data-tr="Web Sitesi Referansları" data-en="Website References">Web Sitesi Referansları</h2>
+      <p data-tr="Modern web teknolojileriyle geliştirdiğimiz web siteleri ve uygulamalar" data-en="Websites and applications we developed with modern web technologies">Modern web teknolojileriyle geliştirdiğimiz web siteleri ve uygulamalar</p>
+    </div>
+    <div class="references-filter">
+      <button class="filter-btn active" onclick="filterWebReferences('all')" data-tr="Tümü" data-en="All">Tümü</button>
+      <button class="filter-btn" onclick="filterWebReferences('corporate')" data-tr="Kurumsal" data-en="Corporate">Kurumsal</button>
+      <button class="filter-btn" onclick="filterWebReferences('ecommerce')" data-tr="E-Ticaret" data-en="E-Commerce">E-Ticaret</button>
+      <button class="filter-btn" onclick="filterWebReferences('landing')">Landing Page</button>
+      <button class="filter-btn" onclick="filterWebReferences('dashboard')">Dashboard</button>
+    </div>
+    <div class="references-grid" id="web-references-grid">
+      <div class="reference-card" data-category="landing">
+        <div class="reference-image">
+          <img src="topqara-assets/web-emlakpro.jpg" alt="EmlakPro - Gayrimenkul platformu" loading="lazy">
+        </div>
+        <div class="reference-content">
+          <span class="reference-tag">Landing Page</span>
+          <h3>EmlakPro</h3>
+          <p data-tr="Gayrimenkul listeleme ve arama platformu" data-en="Real estate listing and search platform">Gayrimenkul listeleme ve arama platformu</p>
+        </div>
+      </div>
+      <div class="reference-card" data-category="corporate">
+        <div class="reference-image">
+          <img src="topqara-assets/web-atlasholding.jpg" alt="Atlas Şirket Plus - Kurumsal web sitesi" loading="lazy">
+        </div>
+        <div class="reference-content">
+          <span class="reference-tag" data-tr="Kurumsal" data-en="Corporate">Kurumsal</span>
+          <h3 data-tr="Atlas Şirket Plus" data-en="Atlas Company Plus">Atlas Şirket Plus</h3>
+          <p data-tr="Kurumsal web sitesi ve yönetim paneli" data-en="Corporate website and management panel">Kurumsal web sitesi ve yönetim paneli</p>
+        </div>
+      </div>
+      <div class="reference-card" data-category="ecommerce">
+        <div class="reference-image">
+          <img src="topqara-assets/web-modavitrin.jpg" alt="Moda Plus - E-Ticaret sitesi" loading="lazy">
+        </div>
+        <div class="reference-content">
+          <span class="reference-tag" data-tr="E-Ticaret" data-en="E-Commerce">E-Ticaret</span>
+          <h3 data-tr="Moda Plus" data-en="Fashion Plus">Moda Plus</h3>
+          <p data-tr="Online giyim mağazası ve ödeme sistemi" data-en="Online clothing store and payment system">Online giyim mağazası ve ödeme sistemi</p>
+        </div>
+      </div>
+      <div class="reference-card" data-category="landing">
+        <div class="reference-image">
+          <img src="topqara-assets/web-startupx.jpg" alt="StartupX - Startup lansman sayfası" loading="lazy">
+        </div>
+        <div class="reference-content">
+          <span class="reference-tag">Landing Page</span>
+          <h3>StartupX</h3>
+          <p data-tr="Startup lansman ve yatırımcı tanıtım sayfası" data-en="Startup launch and investor presentation page">Startup lansman ve yatırımcı tanıtım sayfası</p>
+        </div>
+      </div>
+      <div class="reference-card" data-category="dashboard">
+        <div class="reference-image">
+          <img src="topqara-assets/web-analyticspro.jpg" alt="Analytics Pro - Dashboard" loading="lazy">
+        </div>
+        <div class="reference-content">
+          <span class="reference-tag">Dashboard</span>
+          <h3>Analytics Pro</h3>
+          <p data-tr="Veri analizi ve raporlama dashboard'u" data-en="Data analysis and reporting dashboard">Veri analizi ve raporlama dashboard'u</p>
+        </div>
+      </div>
+      <div class="reference-card" data-category="corporate">
+        <div class="reference-image">
+          <img src="topqara-assets/web-insaatplus.jpg" alt="İnşaatPlus - Proje yönetimi" loading="lazy">
+        </div>
+        <div class="reference-content">
+          <span class="reference-tag" data-tr="Kurumsal" data-en="Corporate">Kurumsal</span>
+          <h3>İnşaatPlus</h3>
+          <p data-tr="İnşaat firması portföy ve proje yönetimi" data-en="Construction company portfolio and project management">İnşaat firması portföy ve proje yönetimi</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about" id="about">
+    <div class="about-container">
+      <div class="about-visual">
+        <img src="topqara-assets/logo-circle.jpg" alt="topqara - Simetri Prensibi" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; box-shadow: 0 20px 60px rgba(212, 175, 55, 0.3);">
+      </div>
+      <h2 data-tr="Simetri Prensibi" data-en="Symmetry Principle">Simetri Prensibi</h2>
+      <p data-tr="topqara ismindeki 'p' ve 'q' harfleri, yatay eksende birbirinin ayna görüntüsüdür. Bu simetri, bizim yazılım yaklaşımımızı temsil eder: Her iki platformda (iOS ve Android) mükemmel denge, tutarlı kalite ve aynı premium deneyim." data-en="The letters 'p' and 'q' in the name topqara are mirror images of each other on the horizontal axis. This symmetry represents our software approach: perfect balance on both platforms (iOS and Android), consistent quality and the same premium experience.">topqara ismindeki 'p' ve 'q' harfleri, yatay eksende birbirinin ayna görüntüsüdür. Bu simetri, bizim yazılım yaklaşımımızı temsil eder: Her iki platformda (iOS ve Android) mükemmel denge, tutarlı kalite ve aynı premium deneyim.</p>
+      <div class="about-features">
+        <div class="about-feature">
+          <div class="number">50+</div>
+          <h4 data-tr="Proje" data-en="Projects">Proje</h4>
+          <p data-tr="Başarıyla tamamlanan projeler" data-en="Successfully completed projects">Başarıyla tamamlanan projeler</p>
+        </div>
+        <div class="about-feature">
+          <div class="number">4.9</div>
+          <h4 data-tr="Puan" data-en="Rating">Puan</h4>
+          <p data-tr="Müşteri memnuniyeti ortalaması" data-en="Average customer satisfaction">Müşteri memnuniyeti ortalaması</p>
+        </div>
+        <div class="about-feature">
+          <div class="number">3+</div>
+          <h4 data-tr="Yıl" data-en="Years">Yıl</h4>
+          <p data-tr="Sektör deneyimi" data-en="Industry experience">Sektör deneyimi</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact" id="contact">
+    <div class="contact-container">
+      <h2 data-tr="Projenizi Hayata Geçirelim" data-en="Let's Bring Your Project to Life">Projenizi Hayata Geçirelim</h2>
+      <p data-tr="Fikrinizi anlatın, ücretsiz teknik analiz ve fiyat teklifi sunalım" data-en="Tell us your idea, we offer free technical analysis and price quote">Fikrinizi anlatın, ücretsiz teknik analiz ve fiyat teklifi sunalım</p>
+      <form class="contact-form" id="contactForm">
+        <div class="form-row">
+          <input type="text" name="ad" id="form-ad" placeholder="Adınız Soyadınız" data-en-placeholder="Your Name" required>
+          <input type="email" name="email" id="form-email" placeholder="E-posta Adresiniz" data-en-placeholder="Your Email" required>
+        </div>
+        <a href="https://wa.me/905057492383" target="_blank" class="whatsapp-btn">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+          </svg>
+          <span data-tr="WhatsApp'tan Yazın" data-en="Write on WhatsApp">WhatsApp'tan Yazın</span>
+        </a>
+        <input type="text" name="sirket" id="form-sirket" placeholder="Şirket Adı (Opsiyonel)" data-en-placeholder="Company Name (Optional)">
+        <select name="proje_tipi" id="form-proje" required>
+          <option value="" data-tr="Proje Tipi Seçin" data-en="Select Project Type">Proje Tipi Seçin</option>
+          <option value="ios" data-tr="iOS Uygulama" data-en="iOS Application">iOS Uygulama</option>
+          <option value="android" data-tr="Android Uygulama" data-en="Android Application">Android Uygulama</option>
+          <option value="cross" data-tr="Cross-Platform (iOS + Android)" data-en="Cross-Platform (iOS + Android)">Cross-Platform (iOS + Android)</option>
+          <option value="web" data-tr="Web Sitesi / Web App" data-en="Website / Web App">Web Sitesi / Web App</option>
+          <option value="ecommerce" data-tr="E-Ticaret" data-en="E-Commerce">E-Ticaret</option>
+        </select>
+        <textarea name="mesaj" id="form-mesaj" placeholder="Projenizi kısaca anlatın..." data-en-placeholder="Briefly describe your project..." required></textarea>
+        <button type="submit" class="btn-primary" id="submitBtn" data-tr="Gönder →" data-en="Send →">Gönder →</button>
+      </form>
+      <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+          e.preventDefault();
+          const btn = document.getElementById('submitBtn');
+          const originalText = btn.innerHTML;
+          const isEnglish = document.documentElement.lang === 'en';
+          btn.innerHTML = isEnglish ? 'Sending...' : 'Gönderiliyor...';
+          btn.disabled = true;
+          
+          const formData = new FormData();
+          formData.append('ad', document.getElementById('form-ad').value);
+          formData.append('email', document.getElementById('form-email').value);
+          formData.append('sirket', document.getElementById('form-sirket').value || (isEnglish ? 'Not specified' : 'Belirtilmedi'));
+          formData.append('proje_tipi', document.getElementById('form-proje').value);
+          formData.append('mesaj', document.getElementById('form-mesaj').value);
+          formData.append('_subject', isEnglish ? 'New Project Application - topqara' : 'Yeni Proje Başvurusu - topqara');
+          
+          fetch('https://formspree.io/f/xrerwglv', {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'Accept': 'application/json'
+            }
+          }).then(async response => {
+            const data = await response.json();
+            console.log('Formspree response:', data);
+            if (response.ok) {
+              btn.innerHTML = isEnglish ? '✓ Sent' : '✓ Gönderildi';
+              btn.style.background = 'linear-gradient(135deg, #25d366, #128c7e)';
+              document.getElementById('contactForm').reset();
+              alert(isEnglish ? 'Your message has been sent successfully! We will get back to you as soon as possible.' : 'Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağız.');
+            } else {
+              throw new Error(data.error || (isEnglish ? 'Form could not be sent' : 'Form gönderilemedi'));
+            }
+          }).catch(error => {
+            console.error('Form error:', error);
+            btn.innerHTML = '✗ ' + error.message;
+            setTimeout(() => {
+              btn.innerHTML = originalText;
+              btn.disabled = false;
+            }, 3000);
+          });
+        });
+
+        // Language Switcher
+        function setLanguage(lang) {
+          document.documentElement.lang = lang;
+          
+          // Update buttons
+          document.getElementById('btn-tr').classList.toggle('active', lang === 'tr');
+          document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+          
+          // Update all elements with data-tr and data-en attributes
+          document.querySelectorAll('[data-tr][data-en]').forEach(el => {
+            if (lang === 'en') {
+              el.textContent = el.getAttribute('data-en');
+            } else {
+              el.textContent = el.getAttribute('data-tr');
+            }
+          });
+
+          // Update placeholders
+          document.querySelectorAll('[data-en-placeholder]').forEach(el => {
+            if (lang === 'en') {
+              el.placeholder = el.getAttribute('data-en-placeholder');
+            } else {
+              el.placeholder = el.getAttribute('placeholder');
+            }
+          });
+
+          // Update featured badges
+          document.querySelectorAll('[data-featured]').forEach(el => {
+            if (lang === 'en' && el.hasAttribute('data-en-featured')) {
+              el.setAttribute('data-featured', el.getAttribute('data-en-featured'));
+            } else {
+              el.setAttribute('data-featured', el.getAttribute('data-featured'));
+            }
+          });
+
+          // Update title
+          const titleEl = document.querySelector('title');
+          if (lang === 'en') {
+            titleEl.textContent = titleEl.getAttribute('data-en');
+          } else {
+            titleEl.textContent = titleEl.getAttribute('data-tr');
+          }
+
+          // Save preference
+          localStorage.setItem('language', lang);
+        }
+
+        // Load saved language preference
+        document.addEventListener('DOMContentLoaded', function() {
+          const savedLang = localStorage.getItem('language') || 'tr';
+          if (savedLang === 'en') {
+            setLanguage('en');
+          }
+        });
+      </script>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-brand" style="display: flex; flex-direction: column; align-items: center; padding: 14px 28px; background: linear-gradient(145deg, rgba(212, 175, 55, 0.12), rgba(184, 134, 11, 0.06)); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 20px; box-shadow: 0 8px 32px rgba(212, 175, 55, 0.12);">
+        <img src="topqara-assets/logo-glow.jpg" alt="topqara" style="height: 95px; width: auto; object-fit: contain; filter: brightness(1.1);">
+      </div>
+      <div class="footer-links">
+        <a href="#services" data-tr="Hizmetler" data-en="Services">Hizmetler</a>
+        <a href="#pricing" data-tr="Fiyatlar" data-en="Pricing">Fiyatlar</a>
+        <a href="#references" data-tr="Referanslar" data-en="References">Referanslar</a>
+        <a href="#contact" data-tr="İletişim" data-en="Contact">İletişim</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2024 topqara. <span data-tr="Tüm hakları saklıdır." data-en="All rights reserved.">Tüm hakları saklıdır.</span></p>
+      <div class="footer-social">
+        <a href="#" title="LinkedIn">in</a>
+        <a href="#" title="Twitter">X</a>
+        <a href="#" title="GitHub">gh</a>
+        <a href="#" title="Instagram">ig</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp Float Button -->
+  <a href="https://wa.me/905057492383" class="whatsapp-float" target="_blank" title="WhatsApp'tan Yazın">
+    <svg viewBox="0 0 24 24" width="32" height="32" fill="white">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+    </svg>
+  </a>
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Yukarı Çık">↑</button>
+
+  <script>
+    // References Filter
+    function filterReferences(category) {
+      const section = document.getElementById('references');
+      const cards = section.querySelectorAll('.reference-card');
+      const buttons = section.querySelectorAll('.filter-btn');
+      
+      buttons.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      cards.forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Web References Filter
+    function filterWebReferences(category) {
+      const section = document.getElementById('web-references');
+      const cards = section.querySelectorAll('.reference-card');
+      const buttons = section.querySelectorAll('.filter-btn');
+      
+      buttons.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      cards.forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
